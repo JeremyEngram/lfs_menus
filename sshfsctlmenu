@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Display the menu options
+PS3="Please enter your choice: "
+options=("Connect to remote system" "Copy files using SCP" "Open GUI application over SSH and X11" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Connect to remote system")
+            # Ask for the remote system's address and the username to connect with
+            read -p "Enter the remote system's address: " address
+            read -p "Enter your username on the remote system: " username
+            # Connect to the remote system using SSH
+            ssh $username@$address
+            ;;
+        "Copy files using SCP")
+            # Ask for the source file/directory, destination file/directory, remote system's address, and the username to connect with
+            read -p "Enter the source file/directory: " source
+            read -p "Enter the destination file/directory: " destination
+            read -p "Enter the remote system's address: " address
+            read -p "Enter your username on the remote system: " username
+            # Copy the file/directory using SCP
+            scp $source $username@$address:$destination
+            ;;
+        "Open GUI application over SSH and X11")
+            # Ask for the remote system's address and the username to connect with
+            read -p "Enter the remote system's address: " address
+            read -p "Enter your username on the remote system: " username
+            # Connect to the remote system using SSH with X11 forwarding enabled
+            ssh -X $username@$address
+            # Ask for the name of the GUI application to open
+            read -p "Enter the name of the GUI application to open: " appname
+            # Open the GUI application
+            $appname &
+            ;;
+        "Quit")
+            # Exit the script
+            break
+            ;;
+        *) echo "Invalid option. Please enter a valid option number.";;
+    esac
+done

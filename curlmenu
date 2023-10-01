@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Function to download a file
+download_file() {
+    echo "Enter the URL of the file:"
+    read url
+    echo "Enter the name of the output file:"
+    read outfile
+    curl "$url" -o "$outfile"
+    echo "File downloaded successfully!"
+}
+
+# Function to download multiple files
+download_multiple_files() {
+    echo "Enter the URLs of the files (separated by spaces):"
+    read -a urls
+    for url in "${urls[@]}"; do
+        curl -O "$url"
+    done
+    echo "Files downloaded successfully!"
+}
+
+# Function to download sequentially numbered files
+download_sequential_files() {
+    echo "Enter the base URL of the files:"
+    read baseurl
+    echo "Enter the starting number:"
+    read start
+    echo "Enter the ending number:"
+    read end
+    for ((i=start; i<=end; i++)); do
+        curl "$baseurl$i"
+    done
+    echo "Files downloaded successfully!"
+}
+
+# Function to display the menu
+display_menu() {
+    echo "===== Curl Cheat Sheet ====="
+    echo "1. Download a file"
+    echo "2. Download multiple files"
+    echo "3. Download sequentially numbered files"
+    echo "4. Exit"
+    echo "============================"
+    echo "Enter your choice:"
+}
+
+# Main script
+while true; do
+    display_menu
+    read choice
+    case $choice in
+        1) download_file ;;
+        2) download_multiple_files ;;
+        3) download_sequential_files ;;
+        4) exit ;;
+        *) echo "Invalid choice. Please try again." ;;
+    esac
+    echo
+done

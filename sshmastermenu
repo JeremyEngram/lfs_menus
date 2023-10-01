@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "Secure Shell Menu"
+echo "-----------------"
+
+select option in "Connect to remote server" "Connect with private key" "Specify port" "Run remote command" "Dynamic port forwarding" "Local port forwarding" "SSH jumping" "Agent forwarding" "Exit"; do
+  case $option in
+    "Connect to remote server")
+      read -p "Enter username and host: " username_host
+      ssh $username_host
+      ;;
+    "Connect with private key")
+      read -p "Enter key path, username and host: " key username_host
+      ssh -i $key $username_host
+      ;;  
+    "Specify port")
+      read -p "Enter username, host and port: " username_host port
+      ssh $username_host -p $port
+      ;;
+    "Run remote command")
+      read -p "Enter username, host and command: " username_host command
+      ssh $username_host -t $command
+      ;;
+    "Dynamic port forwarding")
+      read -p "Enter username and host: " username_host  
+      ssh -D 1080 $username_host
+      ;;
+    "Local port forwarding")
+      read -p "Enter local port, remote host and remote port: " localport remotehost remoteport
+      ssh -L $localport:$remotehost:$remoteport -N -T $username_host
+      ;;
+    "SSH jumping")
+      read -p "Enter jump host, username and host: " jump_host username_host
+      ssh -J $jump_host $username_host
+      ;;
+    "Agent forwarding")
+      read -p "Enter username and host:" username_host
+      ssh -A $username_host  
+      ;;
+    "Exit")
+      break
+      ;;
+    *) echo "Invalid option";;
+  esac
+done
+
+echo "Goodbye!"

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+PS3='Please enter your choice: '
+options=("Display Device Information" "Mount Device" "Unmount Device" "Power Off Device" "Unlock Device" "Lock Device" "Display Device Status" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Display Device Information")
+            read -p "Enter device path: " device
+            udisksctl info -b $device
+            ;;
+        "Mount Device")
+            read -p "Enter device path: " device
+            read -p "Enter mount point: " mount_point
+            udisksctl mount -b $device -p $mount_point
+            ;;
+        "Unmount Device")
+            read -p "Enter device path: " device
+            udisksctl unmount -b $device
+            ;;
+        "Power Off Device")
+            read -p "Enter device path: " device
+            udisksctl power-off -b $device
+            ;;
+        "Unlock Device")
+            read -p "Enter device path: " device
+            udisksctl unlock -b $device
+            ;;
+        "Lock Device")
+            read -p "Enter device path: " device
+            udisksctl lock -b $device
+            ;;
+        "Display Device Status")
+            udisksctl status
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "Invalid option. Please try again.";;
+    esac
+done

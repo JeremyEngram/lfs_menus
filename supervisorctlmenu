@@ -1,0 +1,52 @@
+#!/bin/bash
+
+PS3='Please enter your choice: '
+options=("Status" "Start" "Stop" "Restart" "Reload" "Update" "Reread" "Add" "Remove" "Available" "Help" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Status")
+            supervisorctl status
+            ;;
+        "Start")
+            read -p "Enter process name: " process
+            supervisorctl start $process
+            ;;
+        "Stop")
+            read -p "Enter process name: " process
+            supervisorctl stop $process
+            ;;
+        "Restart")
+            read -p "Enter process name: " process
+            supervisorctl restart $process
+            ;;
+        "Reload")
+            supervisorctl reload
+            ;;
+        "Update")
+            supervisorctl update
+            ;;
+        "Reread")
+            supervisorctl reread
+            ;;
+        "Add")
+            read -p "Enter process name: " process
+            read -p "Enter command to run: " command
+            supervisorctl add $process command=$command
+            ;;
+        "Remove")
+            read -p "Enter process name: " process
+            supervisorctl remove $process
+            ;;
+        "Available")
+            supervisorctl avail
+            ;;
+        "Help")
+            supervisorctl help
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "Invalid option $REPLY";;
+    esac
+done

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Prompt user to select an option
+select option in "Delete all files with a specific extension" "Delete all empty directories" "Delete all files modified more than a certain number of days ago" "Delete all files larger than a certain size" "Move all files with a specific extension to a new directory" "Exit"
+do
+    case $option in
+        # Option 1: Delete all files with a specific extension
+        "Delete all files with a specific extension")
+            echo "Enter the extension (e.g. .txt) of the files to delete:"
+            read extension
+            find . -name "*$extension" -exec rm {} \;
+            ;;
+
+        # Option 2: Delete all empty directories
+        "Delete all empty directories")
+            find . -type d -empty -delete
+            ;;
+
+        # Option 3: Delete all files modified more than a certain number of days ago
+        "Delete all files modified more than a certain number of days ago")
+            echo "Enter the number of days (e.g. 30) for modified files:"
+            read days
+            find . -type f -mtime +$days -exec rm {} \;
+            ;;
+
+        # Option 4: Delete all files larger than a certain size
+        "Delete all files larger than a certain size")
+            echo "Enter the size (e.g. 10M) of files to delete:"
+            read size
+            find . -type f -size +$size -exec rm {} \;
+            ;;
+
+        # Option 5: Move all files with a specific extension to a new directory
+        "Move all files with a specific extension to a new directory")
+            echo "Enter the extension (e.g. .jpg) of the files to move:"
+            read extension
+            echo "Enter the path to the directory to move the files to:"
+            read directory
+            find . -name "*$extension" -exec mv {} $directory \;
+            ;;
+
+        # Option 6: Exit the script
+        "Exit")
+            exit
+            ;;
+        
+        # Invalid option selected
+        *)
+            echo "Invalid option selected"
+            ;;
+    esac
+done

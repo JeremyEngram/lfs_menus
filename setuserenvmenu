@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Function to set custom environment variables
+set_custom_env_variable() {
+    read -p "Enter the variable name: " var_name
+    read -p "Enter the variable value: " var_value
+
+    export "$var_name=$var_value"
+    echo "Custom environment variable '$var_name' has been set to '$var_value'."
+}
+
+# Function to set user variables
+set_user_variable() {
+    read -p "Enter the variable name: " var_name
+    read -p "Enter the variable value: " var_value
+
+    echo "$var_name=$var_value" >> ~/.custom_variables
+    echo "User variable '$var_name' has been set to '$var_value'."
+}
+
+# Menu for variable creation options
+select_option() {
+    echo "Select an option:"
+    echo "1. Set a custom environment variable"
+    echo "2. Set a user variable"
+    echo "3. Exit"
+
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1)
+            set_custom_env_variable
+            ;;
+        2)
+            set_user_variable
+            ;;
+        3)
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option. Please try again."
+            ;;
+    esac
+
+    select_option
+}
+
+# Start the script by displaying the menu
+select_option

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Define a function to display the menu
+show_menu() {
+    echo "Select an option:"
+    echo "1. apache2ctlmenu"
+    echo "2. compressmenu"
+    echo "3. decompressmenu"
+    echo "4. findctlmenu"
+    echo "5. journalmenu"
+    echo "6. recursivectl2menu"
+    echo "7. recursivectlmenu"
+    echo "8. searchctlmenu"
+    echo "9. sshctlmenu"
+    echo "10. sshfsctlmenu"
+    echo "11. supervisorctlmenu"
+    echo "12. udisks2ctlmenu"
+    echo "0. Exit"
+}
+
+# Define a function to run the selected script
+run_script() {
+    case $1 in
+        1) ./apache2ctlmenu;;
+        2) ./compressmenu;;
+        3) ./decompressmenu;;
+        4) ./findctlmenu;;
+        5) ./journalmenu;;
+        6) ./recursivectl2menu;;
+        7) ./recursivectlmenu;;
+        8) ./searchctlmenu;;
+        9) ./sshctlmenu;;
+        10) ./sshfsctlmenu;;
+        11) ./supervisorctlmenu;;
+        12) ./udisks2ctlmenu;;
+        0) exit;;
+        *) echo "Invalid option";;
+    esac
+}
+
+# Loop to display the menu and get user input
+while true
+do
+    show_menu
+    read -p "Enter option: " choice
+    run_script $choice
+done
